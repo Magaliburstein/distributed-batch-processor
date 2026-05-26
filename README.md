@@ -226,6 +226,7 @@ Cuando se incorpora un proveedor nuevo a la tabla de registros:
 | `providers` | Lista de proveedores separada por comas | `providerA,providerB,providerC` |
 | `apiEndpoint` | URL del endpoint de la API interna de Tapi | `https://api.tapi.internal/process` |
 | `alertEmail` | Email para recibir alertas de CloudWatch | `alertas@tapi.com` |
+| `databaseUrl` | Connection string de la base de datos de registros (requerido) | — |
 
 ## GitHub Actions — setup OIDC
 

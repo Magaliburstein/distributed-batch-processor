@@ -11,6 +11,7 @@ interface StackOrchestrationProps extends cdk.StackProps {
   configTable: dynamodb.Table;
   paginatorFunction: lambda.Function;
   sqsQueueUrlPrefix: string;
+  databaseUrl: string;
 }
 
 export class StackOrchestration extends cdk.Stack {
@@ -20,7 +21,7 @@ export class StackOrchestration extends cdk.Stack {
   constructor(scope: Construct, id: string, props: StackOrchestrationProps) {
     super(scope, id, props);
 
-    const { environment, paginatorFunction, sqsQueueUrlPrefix } = props;
+    const { environment, paginatorFunction, sqsQueueUrlPrefix, databaseUrl } = props;
 
     // Rol que EventBridge Scheduler usará para invocar la Lambda paginadora
     this.schedulerRole = new iam.Role(this, 'SchedulerExecutionRole', {
@@ -49,6 +50,7 @@ export class StackOrchestration extends cdk.Stack {
         SQS_QUEUE_URL_PREFIX: sqsQueueUrlPrefix,
         SCHEDULER_GROUP_NAME: `tapi-batch-${environment}`,
         ENVIRONMENT: environment,
+        DATABASE_URL: databaseUrl,
       },
       bundling: { minify: true, sourceMap: true },
     });

@@ -186,6 +186,7 @@ async function saveResult(params: {
     idempotency_key: idempotencyKey,
     timestamp_ejecucion: timestamp,
     retry_count: retryCount,
+    ttl: Math.floor(Date.now() / 1000) + 90 * 24 * 60 * 60, // 90 días de retención
     ...(statusCode !== undefined && { statusCode }),
     ...(error !== undefined && { error }),
   };

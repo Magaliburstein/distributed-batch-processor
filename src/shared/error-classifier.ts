@@ -36,6 +36,10 @@ export function applyClassification(
   statusCode: number,
   config: ProviderConfig | null,
 ): ClassificationResult {
+  if (statusCode >= 200 && statusCode < 300) {
+    return { classification: 'SUCCESS' };
+  }
+
   if (config?.retriable_status_codes?.includes(statusCode)) {
     return {
       classification: 'RETRY',

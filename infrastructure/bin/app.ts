@@ -19,6 +19,7 @@ const rawProviders = app.node.tryGetContext('providers') as string ?? 'providerA
 const providers = rawProviders.split(',').map((p: string) => p.trim()).filter(Boolean);
 const alertEmail = app.node.tryGetContext('alertEmail') as string ?? 'alertas@tapi.com';
 const apiEndpoint = app.node.tryGetContext('apiEndpoint') as string ?? 'https://api.tapi.internal/process';
+const databaseUrl = app.node.tryGetContext('databaseUrl') as string ?? '';
 
 const awsEnv: cdk.Environment = {
   account: process.env.CDK_DEFAULT_ACCOUNT,
@@ -40,6 +41,7 @@ const workersStack = new StackWorkers(app, `tapi-workers-${environment}`, {
   resultsTable: persistenciaStack.resultsTable,
   configTable: persistenciaStack.configTable,
   apiEndpoint,
+  databaseUrl,
   description: `Tapi Batch — SQS + Lambda Paginadora + Lambda Workers [${environment}]`,
 });
 workersStack.addDependency(persistenciaStack);
@@ -54,6 +56,7 @@ const orchestrationStack = new StackOrchestration(app, `tapi-orchestration-${env
   configTable: persistenciaStack.configTable,
   paginatorFunction: workersStack.paginatorFunction,
   sqsQueueUrlPrefix,
+  databaseUrl,
   description: `Tapi Batch — Lambda Orquestadora [${environment}]`,
 });
 orchestrationStack.addDependency(workersStack);

@@ -40,6 +40,13 @@ export const handler = async (): Promise<void> => {
   }
 
   console.log('Orchestration complete', { batchDate, providerCount: schedules.length });
+
+  if (schedules.length > 900_000) {
+    console.warn('WARNING: approaching EventBridge Scheduler limit', {
+      schedulesCreated: schedules.length,
+      limit: 1_000_000,
+    });
+  }
 };
 
 export function buildSchedules(

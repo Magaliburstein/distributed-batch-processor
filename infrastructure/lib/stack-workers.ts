@@ -22,6 +22,7 @@ interface StackWorkersProps extends cdk.StackProps {
   resultsTable: dynamodb.Table;
   configTable: dynamodb.Table;
   apiEndpoint: string;
+  databaseUrl: string;
 }
 
 export class StackWorkers extends cdk.Stack {
@@ -33,7 +34,7 @@ export class StackWorkers extends cdk.Stack {
   constructor(scope: Construct, id: string, props: StackWorkersProps) {
     super(scope, id, props);
 
-    const { environment, providers, resultsTable, configTable, apiEndpoint } = props;
+    const { environment, providers, resultsTable, configTable, apiEndpoint, databaseUrl } = props;
 
     // Paginator Lambda — única, invocada una vez por proveedor por EventBridge Scheduler
     this.paginatorFunction = new lambdaNode.NodejsFunction(this, 'PaginatorFunction', {
@@ -45,6 +46,7 @@ export class StackWorkers extends cdk.Stack {
       memorySize: 512,
       environment: {
         SOURCE_TABLE: `registros_${environment}`,
+        DATABASE_URL: databaseUrl,
       },
       bundling: { minify: true, sourceMap: true },
     });
@@ -124,7 +126,7 @@ export class StackWorkers extends cdk.Stack {
       new lambdaEventSources.SqsEventSource(queue, {
         batchSize: 1,
         // reportBatchItemFailures permite que Lambda reporte fallos individuales
-        reportBatchItemFailures: false,
+        reportBatchItemFailures: true,
       }),
     );
 

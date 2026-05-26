@@ -36,6 +36,7 @@ export interface ProcessingResult {
   idempotency_key: string;
   timestamp_ejecucion: string;
   retry_count: number;
+  ttl?: number;
 }
 
 export interface OrchestratorEnv {

@@ -114,7 +114,7 @@ export class StackObservabilidad extends cdk.Stack {
     const snsAction = new cloudwatchActions.SnsAction(alertTopic);
     for (const alarm of alarms) {
       alarm.addAlarmAction(snsAction);
-      alarm.addOKAction(snsAction);
+      alarm.addOkAction(snsAction);
     }
 
     // Dashboard consolidado
