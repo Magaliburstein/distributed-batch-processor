@@ -1,0 +1,13 @@
+{
+  "app": "npx ts-node infrastructure/bin/app.ts",
+  "watch": {
+    "include": ["infrastructure/**"],
+    "exclude": ["node_modules", "dist", "cdk.out"]
+  },
+  "context": {
+    "@aws-cdk/aws-lambda:recognizeLayerVersion": true,
+    "@aws-cdk/core:checkSecretUsage": true,
+    "@aws-cdk/customResources:installLatestAwsSdkDefault": false,
+    "providers": "providerA,providerB,providerC"
+  }
+}
