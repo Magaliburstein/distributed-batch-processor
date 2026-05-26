@@ -1,4 +1,4 @@
-# Tapi Batch System
+# Batch System
 
 Sistema de procesamiento batch que consume hasta 1 millón de registros diarios desde una tabla relacional, distribuyendo la carga de llamadas HTTP a la API interna de Tapi a lo largo de 22 horas. Cada proveedor recibe su propio canal de procesamiento (cola SQS + Lambda worker) con concurrencia reservada 1, garantizando orden y evitando sobrecarga a la API. El 2-hour buffer al final del día es el margen de reintentos antes del siguiente ciclo.
 
